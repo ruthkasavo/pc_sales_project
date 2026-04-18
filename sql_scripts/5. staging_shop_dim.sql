@@ -16,3 +16,16 @@ FROM computer_std.dbo.pc_data;
 
 --select all data from the dim table
 SELECT * FROM computer_std.dbo.dim_shop;
+
+WITH ShopCleaner AS (
+    SELECT 
+        Shop_ID, 
+        [Shop Name],
+        ROW_NUMBER() OVER (
+            PARTITION BY [Shop Name] 
+            ORDER BY Shop_ID
+        ) AS RowNum
+    FROM computer_std.dbo.dim_shop
+)
+DELETE FROM ShopCleaner 
+WHERE RowNum > 1;
