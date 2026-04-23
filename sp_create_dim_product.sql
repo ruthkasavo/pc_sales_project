@@ -1,0 +1,21 @@
+CREATE OR ALTER PROCEDURE sp_create_dim_product
+AS
+BEGIN
+--create if not exist
+IF OBJECT_ID('computer_std.dbo.dim_product', 'U') IS NOT NULL
+    DROP TABLE computer_std.dbo.dim_product;
+CREATE TABLE computer_std.dbo.dim_product (
+    Product_ID INT IDENTITY(1,1) PRIMARY KEY,
+    [PC Make] VARCHAR(250) NULL,
+    [PC Model] VARCHAR(250) NULL,
+    [Storage Type] VARCHAR(250) NULL,
+    [Storage Capacity] NVARCHAR(250) NULL,
+    RAM NVARCHAR(50) NULL
+);
+-- insert data into the table
+INSERT INTO computer_std.dbo.dim_product 
+	([PC Make], [PC Model], [Storage Type], [Storage Capacity], RAM)
+SELECT DISTINCT 
+	[PC Make], [PC Model], [Storage Type], [Storage Capacity], RAM
+FROM computer_std.dbo.pc_data
+END;
