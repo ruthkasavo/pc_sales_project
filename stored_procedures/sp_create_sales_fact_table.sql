@@ -5,6 +5,7 @@ IF OBJECT_ID('computer_std.dbo.Fact_PC_Sales', 'U') IS NOT NULL
     DROP TABLE computer_std.dbo.Fact_PC_Sales;
 
 CREATE TABLE computer_std.dbo.Fact_PC_Sales (
+    -- Columns
     Customer_ID INT,
     Sales_Person_ID INT,
     Product_ID INT,
@@ -20,7 +21,17 @@ CREATE TABLE computer_std.dbo.Fact_PC_Sales (
     [Ship Date] DATE,
     [Credit Score] INT,
     [Cost of Repairs] DECIMAL(18,2),
-    [PC Market Price] DECIMAL(18,2)
+    [PC Market Price] DECIMAL(18,2),
+
+    -- Relationship Definitions (The "Lines")
+    FOREIGN KEY (Customer_ID) REFERENCES computer_std.dbo.dim_customer(Customer_ID),
+    FOREIGN KEY (Sales_Person_ID) REFERENCES computer_std.dbo.dim_sales_person(Sales_Person_ID),
+    FOREIGN KEY (Product_ID) REFERENCES computer_std.dbo.dim_product(Product_ID),
+    FOREIGN KEY (Location_ID) REFERENCES computer_std.dbo.dim_location(Location_ID),
+    FOREIGN KEY (Channel_ID) REFERENCES computer_std.dbo.dim_channel(Channel_ID),
+    FOREIGN KEY (Shop_ID) REFERENCES computer_std.dbo.dim_shop(Shop_ID),
+    FOREIGN KEY (Payment_Method_ID) REFERENCES computer_std.dbo.dim_payment_method(Payment_Method_ID),
+    FOREIGN KEY (Priority_ID) REFERENCES computer_std.dbo.dim_priority(Priority_ID)
 );
 
 INSERT INTO computer_std.dbo.Fact_PC_Sales (
